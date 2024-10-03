@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX Demo with Spring Boot</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>AJAX with Spring Boot and jQuery</h1>
+
+<!-- Form to submit data -->
+<form id="dataForm">
+  <input type="text" id="dataInput" placeholder="Enter some data" required />
+  <button type="submit">Submit</button>
+</form>
+
+<!-- Div to display data -->
+<div id="dataContainer">
+  <h2>Data:</h2>
+  <ul id="dataList"></ul>
+</div>
+
+<script>
+  // jQuery to handle form submission
+  $("#dataForm").submit(function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    var newData = $("#dataInput").val();
+
+    // Make AJAX POST request
+    $.ajax({
+      url: '/api/data',
+      type: 'POST',
+      data: JSON.stringify(newData),
+      contentType: 'application/json',
+      success: function(response) {
+        alert("Data added successfully!");
+        fetchData(); // Fetch updated data
+        $("#dataInput").val(''); // Clear input field
+      },
+      error: function(error) {
+        console.error("Error saving data", error);
+      }
+    });
+  });
+
+  // Fetch data using AJAX
+  function fetchData() {
+    $.ajax({
+      url: '/api/data',
+      type: 'GET',
+      success: function(data) {
+        $("#dataList").empty(); // Clear current list
+        data.forEach(function(item) {
+          $("#dataList").append('<li>' + item.data + '</li>');
+        });
+      },
+      error: function(error) {
+        console.error("Error fetching data", error);
+      }
+    });
+  }
+
+  // Fetch data when the page loads
+  $(document).ready(function() {
+    fetchData();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+com\example\jQuery\model\DataModel.class
+com\example\jQuery\controller\DataController.class
+com\example\jQuery\JQueryApplication.class
+com\example\jQuery\repository\DataRepository.class
+com\example\jQuery\service\DataService.class
